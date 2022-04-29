@@ -7,15 +7,15 @@ on:
         description: "platform"
         required: true
         default: "ds920p"
-      version:
-        description: "version"
+      pcie_root:
+        description: "pcie_root"
         required: true
-        default: "7.1.0-42661"
+        default: "00:1f.2"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: 编译 "${{ github.event.inputs.platform }} ${{ github.event.inputs.version }}"
+    name: 修改 "${{ github.event.inputs.platform }} DTB"
 
     steps:
       - name: 检出项目文件
@@ -27,7 +27,7 @@ jobs:
       - name: 准备构建环境
         run: |
           sudo apt update && sudo apt upgrade -y
-          sudo apt install install -y device-tree-compiler
+          sudo apt install -y device-tree-compiler
 
       - name: DTB转DTS
         run: |
@@ -40,20 +40,28 @@ jobs:
           cat output.dts
           echo "------"
           sed -n '/internal_slot@1/,/internal_slot/p'
-          sed -i '/internal_slot@1/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot1";/}'
+          sed -i '/internal_slot@1/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
           sed -n '/internal_slot@1/,/internal_slot/p'
           echo "------"
           sed -n '/internal_slot@2/,/internal_slot/p'
-          sed -i '/internal_slot@2/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot2";/}'
+          sed -i '/internal_slot@2/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
           sed -n '/internal_slot@2/,/internal_slot/p'
           echo "------"
           sed -n '/internal_slot@3/,/internal_slot/p'
-          sed -i '/internal_slot@3/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot3";/}'
+          sed -i '/internal_slot@3/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
           sed -n '/internal_slot@3/,/internal_slot/p'
           echo "------"
           sed -n '/internal_slot@4/,/internal_slot/p'
-          sed -i '/internal_slot@4/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot4";/}'
+          sed -i '/internal_slot@4/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
           sed -n '/internal_slot@4/,/internal_slot/p'
+          echo "------"
+          sed -n '/internal_slot@5/,/internal_slot/p'
+          sed -i '/internal_slot@5/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
+          sed -n '/internal_slot@5/,/internal_slot/p'
+          echo "------"
+          sed -n '/internal_slot@6/,/internal_slot/p'
+          sed -i '/internal_slot@6/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}'
+          sed -n '/internal_slot@6/,/internal_slot/p'
           echo "------"
 
       - name: DTS转DTB
