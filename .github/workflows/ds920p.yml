@@ -77,7 +77,9 @@ jobs:
           echo "------"
 
       - name: 提交
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          add: "redpill-dtb"
 
       - name: 删除旧的工作流
         uses: Mattraks/delete-workflow-runs@v2
