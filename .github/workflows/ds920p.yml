@@ -23,8 +23,8 @@ jobs:
 
       - name: 准备构建环境
         run: |
-          sudo apt update && sudo apt upgrade -y
-          sudo apt install -y device-tree-compiler
+          sudo apt -qq update && sudo apt upgrade -y
+          sudo apt -qq install -y device-tree-compiler
           git clone https://github.com/jumkey/redpill-load redpill-load
           cp -ar redpill-load/redpill-dtb ./
           rm -rf redpill-load
@@ -79,7 +79,8 @@ jobs:
       - name: 提交
         uses: EndBug/add-and-commit@v9.0.0
         with:
-          add: "redpill-dtb"
+          author_name: PuXiongfei
+          author_email: pu.xiongfei@qq.com
 
       - name: 删除旧的工作流
         uses: Mattraks/delete-workflow-runs@v2
