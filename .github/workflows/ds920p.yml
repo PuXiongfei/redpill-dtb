@@ -39,29 +39,22 @@ jobs:
           echo "------"
           cat output.dts
           echo "------"
-          sed -n '/internal_slot@1/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@1/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@1/,/internal_slot/p' output.dts
           echo "------"
-          sed -n '/internal_slot@2/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@2/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@2/,/internal_slot/p' output.dts
+          sed -n '/internal_slot@0/,/led_green/p' output.dts
+          sed -i '/internal_slot@0/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
+          sed -n '/internal_slot@0/,/led_green/p' output.dts
           echo "------"
-          sed -n '/internal_slot@3/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@3/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@3/,/internal_slot/p' output.dts
+          sed -n '/internal_slot@1/,/led_green/p' output.dts
+          sed -i '/internal_slot@1/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
+          sed -n '/internal_slot@1/,/led_green/p' output.dts
           echo "------"
-          sed -n '/internal_slot@4/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@4/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@4/,/internal_slot/p' output.dts
+          sed -n '/internal_slot@2/,/led_green/p' output.dts
+          sed -i '/internal_slot@2/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
+          sed -n '/internal_slot@2/,/led_green/p' output.dts
           echo "------"
-          sed -n '/internal_slot@5/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@5/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@5/,/internal_slot/p' output.dts
-          echo "------"
-          sed -n '/internal_slot@6/,/internal_slot/p' output.dts
-          sed -i '/internal_slot@6/,/internal_slot/{s/pcie_root =.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@6/,/internal_slot/p' output.dts
+          sed -n '/internal_slot@3/,/led_green/p' output.dts
+          sed -i '/internal_slot@3/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
+          sed -n '/internal_slot@3/,/led_green/p' output.dts
           echo "------"
 
       - name: DTS转DTB
@@ -72,13 +65,17 @@ jobs:
       - name: 覆盖DTB
         run: |
           cp -a model_${{ github.event.inputs.platform }}.dtb redpill-dtb/releases/model_${{ github.event.inputs.platform }}.dtb
+          sha256sum redpill-dtb/releases/model_${{ github.event.inputs.platform }}.dtb
 
       - name: 修改universal.json
         run: |
+          echo "------"
           cat redpill-dtb/recipes/universal.json
+          echo "------"
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
           sed -i '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/{s/\"sha256\".*/\"sha256\": \"$(sha256sum model_${{ github.event.inputs.platform }}.dtb)\",/}' redpill-dtb/recipes/universal.json
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
+          echo "------"
 
       - name: 删除旧的工作流
         uses: Mattraks/delete-workflow-runs@v2
