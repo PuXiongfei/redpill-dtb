@@ -7,6 +7,10 @@ on:
         description: "platform"
         required: true
         default: "ds920p"
+      version:
+        description: "version"
+        required: true
+        default: "42661"
       pcie_root:
         description: "pcie_root"
         required: true
@@ -85,6 +89,10 @@ jobs:
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
           sed -i 's/\"id\".*/\"id\": \"${{ github.event.inputs.platform }}.dtb\",/' redpill-dtb/rpext-index.json
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
+          echo "------"
+          sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
+          sed -i 's/\"ds920p_.*\"/\"ds920p_${{ github.event.inputs.version }}\"/' redpill-dtb/rpext-index.json
+          sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
           echo "------"
           sed -i "s|jumkey/redpill-load|$GITHUB_REPOSITORY|" redpill-dtb/rpext-index.json
 
