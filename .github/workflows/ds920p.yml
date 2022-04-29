@@ -1,0 +1,79 @@
+name: ds920p
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "platform"
+        required: true
+        default: "ds920p"
+      version:
+        description: "version"
+        required: true
+        default: "7.1.0-42661"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: 编译 "${{ github.event.inputs.platform }} ${{ github.event.inputs.version }}"
+
+    steps:
+      - name: 检出项目文件
+        uses: actions/checkout@v3
+        with:
+          repository: jumkey/redpill-load
+          ref: develop
+
+      - name: 准备构建环境
+        run: |
+          sudo apt update && sudo apt upgrade -y
+          sudo apt install install -y device-tree-compiler
+
+      - name: DTB转DTS
+        run: |
+          sha256sum redpill-dtb/releases/model_${{ github.event.inputs.platform }}.dtb
+          dtc -I dtb -O dts -o output.dts redpill-dtb/releases/model_${{ github.event.inputs.platform }}.dtb
+
+      - name: 修改DTS
+        run: |
+          echo "------"
+          cat output.dts
+          echo "------"
+          sed -n '/internal_slot@1/,/internal_slot/p'
+          sed -i '/internal_slot@1/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot1";/}'
+          sed -n '/internal_slot@1/,/internal_slot/p'
+          echo "------"
+          sed -n '/internal_slot@2/,/internal_slot/p'
+          sed -i '/internal_slot@2/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot2";/}'
+          sed -n '/internal_slot@2/,/internal_slot/p'
+          echo "------"
+          sed -n '/internal_slot@3/,/internal_slot/p'
+          sed -i '/internal_slot@3/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot3";/}'
+          sed -n '/internal_slot@3/,/internal_slot/p'
+          echo "------"
+          sed -n '/internal_slot@4/,/internal_slot/p'
+          sed -i '/internal_slot@4/,/internal_slot/{s/pcie_root =.*/pcie_root = "internal_slot4";/}'
+          sed -n '/internal_slot@4/,/internal_slot/p'
+          echo "------"
+
+      - name: DTS转DTB
+        run: |
+          dtc -I dts -O dtb -o model_${{ github.event.inputs.platform }}.dtb output.dts
+          sha256sum model_${{ github.event.inputs.platform }}.dtb
+
+      - name: 覆盖DTB
+        run: |
+          cp -a model_${{ github.event.inputs.platform }}.dtb redpill-dtb/releases/model_${{ github.event.inputs.platform }}.dtb
+
+      - name: 修改universal.json
+        run: |
+          cat redpill-dtb/recipes/universal.json
+          sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p'
+          sed -i '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/{s/\"sha256\".*/\"sha256\": \"$(sha256sum model_${{ github.event.inputs.platform }}.dtb)\",/}''
+          sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p'
+
+      - name: 删除旧的工作流
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          retain_days: 0
+          keep_minimum_runs: 1
