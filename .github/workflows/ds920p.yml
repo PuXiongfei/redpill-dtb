@@ -76,6 +76,11 @@ jobs:
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
           echo "------"
 
+      - name: 提交
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: ./redpill-dtb
+
       - name: 删除旧的工作流
         uses: Mattraks/delete-workflow-runs@v2
         with:
