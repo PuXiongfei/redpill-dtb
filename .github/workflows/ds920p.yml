@@ -94,7 +94,7 @@ jobs:
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
           echo "------"
           sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
-          sed -i 'releases.*/a\    \"ds920p_${{ github.event.inputs.version }}\": \"https://github.com/PuXiongfei/redpill-dtb/raw/main/redpill-dtb/recipes/universal.json\",/' redpill-dtb/rpext-index.json
+          sed -i '/releases.*/a\    \"ds920p_${{ github.event.inputs.version }}\": \"https://github.com/PuXiongfei/redpill-dtb/raw/main/redpill-dtb/recipes/universal.json\",' redpill-dtb/rpext-index.json
           sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
           echo "------"
 
