@@ -20,16 +20,14 @@ jobs:
     steps:
       - name: 检出项目文件
         uses: actions/checkout@v3
-        with:
-          repository: jumkey/redpill-load
-          ref: develop
-          path: redpill-load
 
       - name: 准备构建环境
         run: |
           sudo apt update && sudo apt upgrade -y
           sudo apt install -y device-tree-compiler
+          git clone https://github.com/jumkey/redpill-load redpill-load
           cp -ar redpill-load/redpill-dtb ./
+          rm -rf redpill-load
 
       - name: DTB转DTS
         run: |
@@ -80,8 +78,6 @@ jobs:
 
       - name: 提交
         uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          file_pattern: ./redpill-dtb
 
       - name: 删除旧的工作流
         uses: Mattraks/delete-workflow-runs@v2
