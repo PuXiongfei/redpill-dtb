@@ -9,9 +9,9 @@
     "help_url": "https://github.com/PuXiongfei/redpill-dtb/raw/develop/redpill-dtb"
   },
   "releases": {
-    "ds920p_42218": "https://github.com/PuXiongfei/redpill-dtb/raw/develop/redpill-dtb/recipes/universal.json",
+    "ds920p_42661",
     "ds1621p_42218": "https://github.com/PuXiongfei/redpill-dtb/raw/develop/redpill-dtb/recipes/universal.json",
     "ds2422p_42218": "https://github.com/PuXiongfei/redpill-dtb/raw/develop/redpill-dtb/recipes/universal.json",
-    "ds920p_42550": "https://github.com/PuXiongfei/redpill-dtb/raw/develop/redpill-dtb/recipes/universal.json"
+    "ds920p_42661"
   }
 }
