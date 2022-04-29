@@ -1,4 +1,4 @@
-name: ds920p
+name: 修改DTB
 
 on:
   workflow_dispatch:
