@@ -72,6 +72,7 @@ jobs:
 
       - name: 修改universal.json
         run: |
+          sed -i "s/develop/main/g" redpill-dtb/recipes/universal.json
           echo "------"
           cat redpill-dtb/recipes/universal.json
           echo "------"
@@ -83,6 +84,7 @@ jobs:
 
       - name: 修改rpext-index.json
         run: |
+          sed -i "s/develop/main/g" redpill-dtb/rpext-index.json
           echo "------"
           cat redpill-dtb/recipes/universal.json
           echo "------"
@@ -91,7 +93,7 @@ jobs:
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
           echo "------"
           sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
-          sed -i 's/\"ds920p_.*\"/\"ds920p_${{ github.event.inputs.version }}\"/' redpill-dtb/rpext-index.json
+          sed -i '/\"ds920p_.*\"/i\    \"ds920p_${{ github.event.inputs.version }}\": \"https://github.com/PuXiongfei/redpill-dtb/raw/main/redpill-dtb/recipes/universal.json\",/' redpill-dtb/rpext-index.json
           sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
           echo "------"
           sed -i "s|jumkey/redpill-load|$GITHUB_REPOSITORY|" redpill-dtb/rpext-index.json
