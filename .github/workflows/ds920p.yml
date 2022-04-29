@@ -77,7 +77,7 @@ jobs:
           echo "------"
 
       - name: 提交
-      - uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           file_pattern: ./redpill-dtb
 
