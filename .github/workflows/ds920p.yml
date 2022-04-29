@@ -39,7 +39,6 @@ jobs:
           echo "------"
           cat output.dts
           echo "------"
-          echo "------"
           sed -n '/internal_slot@0/,/led_green/p' output.dts
           sed -i '/internal_slot@0/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
           sed -n '/internal_slot@0/,/led_green/p' output.dts
@@ -73,7 +72,7 @@ jobs:
           cat redpill-dtb/recipes/universal.json
           echo "------"
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
-          sed -i '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/{s/\"sha256\".*/\"sha256\": \"$(sha256sum model_${{ github.event.inputs.platform }}.dtb)\",/}' redpill-dtb/recipes/universal.json
+          sed -i "/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/{s/\"sha256\".*/\"sha256\": \"$(sha256sum model_${{ github.event.inputs.platform }}.dtb)\",/}" redpill-dtb/recipes/universal.json
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
           echo "------"
 
