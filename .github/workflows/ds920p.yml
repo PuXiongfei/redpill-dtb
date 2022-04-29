@@ -75,10 +75,17 @@ jobs:
           sed -i "/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/{s/\"sha256\".*/\"sha256\": \"$(sha256sum model_${{ github.event.inputs.platform }}.dtb | awk '{print $1}')\",/}" redpill-dtb/recipes/universal.json
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
           echo "------"
-
-      - name: 修改仓库
-        run: |
           sed -i "s|jumkey/redpill-load|$GITHUB_REPOSITORY|" redpill-dtb/recipes/universal.json
+
+      - name: 修改rpext-index.json
+        run: |
+          echo "------"
+          cat redpill-dtb/recipes/universal.json
+          echo "------"
+          sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
+          sed -i 's/\"id\".*/\"id\": \"${{ github.event.inputs.platform }}.dtb\",/' redpill-dtb/rpext-index.json
+          sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
+          echo "------"
           sed -i "s|jumkey/redpill-load|$GITHUB_REPOSITORY|" redpill-dtb/rpext-index.json
 
       - name: 提交
