@@ -23,11 +23,13 @@ jobs:
         with:
           repository: jumkey/redpill-load
           ref: develop
+          path: redpill-load
 
       - name: 准备构建环境
         run: |
           sudo apt update && sudo apt upgrade -y
           sudo apt install -y device-tree-compiler
+          cp -ar redpill-load/redpill-dtb ./
 
       - name: DTB转DTS
         run: |
