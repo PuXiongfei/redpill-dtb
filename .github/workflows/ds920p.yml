@@ -78,8 +78,8 @@ jobs:
 
       - name: 修改仓库
         run: |
-          sed -i "s|jumkey/redpill-load|${{ GITHUB_REPOSITORY }}|" redpill-dtb/recipes/universal.json
-          sed -i "s|jumkey/redpill-load|${{ GITHUB_REPOSITORY }}|" redpill-dtb/rpext-index.json
+          sed -i "s|jumkey/redpill-load|${{ env.GITHUB_REPOSITORY }}|" redpill-dtb/recipes/universal.json
+          sed -i "s|jumkey/redpill-load|${{ env.GITHUB_REPOSITORY }}|" redpill-dtb/rpext-index.json
 
       - name: 提交
         uses: EndBug/add-and-commit@v9.0.0
