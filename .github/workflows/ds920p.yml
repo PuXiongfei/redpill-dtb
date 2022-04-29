@@ -76,6 +76,11 @@ jobs:
           sed -n '/\"model_${{ github.event.inputs.platform }}.dtb\"/,/\"packed\"/p' redpill-dtb/recipes/universal.json
           echo "------"
 
+      - name: 修改仓库
+        run: |
+          sed -i "s|jumkey/redpill-load|${{ GITHUB_REPOSITORY }}|" redpill-dtb/recipes/universal.json
+          sed -i "s|jumkey/redpill-load|${{ GITHUB_REPOSITORY }}|" redpill-dtb/rpext-index.json
+
       - name: 提交
         uses: EndBug/add-and-commit@v9.0.0
         with:
