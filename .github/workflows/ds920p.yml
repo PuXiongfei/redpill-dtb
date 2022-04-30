@@ -92,11 +92,13 @@ jobs:
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
           sed -i 's/\"id\".*/\"id\": \"${{ github.event.inputs.platform }}.dtb\",/' redpill-dtb/rpext-index.json
           sed -n '/\"id\"/p' redpill-dtb/rpext-index.json
-          echo "------"
-          sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
-          sed -i '/releases.*/a\    \"ds920p_${{ github.event.inputs.version }}\": \"https://github.com/PuXiongfei/redpill-dtb/raw/main/redpill-dtb/recipes/universal.json\",' redpill-dtb/rpext-index.json
-          sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
-          echo "------"
+          if [[ $(grep -c "${{ github.event.inputs.version }}" redpill-dtb/rpext-index.json) -eq 0 ]];then
+            echo "------"
+            sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
+            sed -i '/releases.*/a\    \"ds920p_${{ github.event.inputs.version }}\": \"https://github.com/PuXiongfei/redpill-dtb/raw/main/redpill-dtb/recipes/universal.json\",' redpill-dtb/rpext-index.json
+            sed -n '/\"ds920p_.*\"/p' redpill-dtb/rpext-index.json
+            echo "------"
+          fi
 
       - name: 提交
         uses: EndBug/add-and-commit@v9.0.0
