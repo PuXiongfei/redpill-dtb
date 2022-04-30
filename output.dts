@@ -62,7 +62,7 @@
 		led_type = "lp3943";
 
 		ahci {
-			pcie_root = "00:1f.2";
+			pcie_root = "00:1e.0,01.0,07.0";
 			ata_port = <0x00>;
 		};
 
@@ -82,7 +82,7 @@
 		led_type = "lp3943";
 
 		ahci {
-			pcie_root = "00:1f.2";
+			pcie_root = "00:1e.0,01.0,07.0";
 			ata_port = <0x01>;
 		};
 
@@ -102,7 +102,7 @@
 		led_type = "lp3943";
 
 		ahci {
-			pcie_root = "00:1f.2";
+			pcie_root = "00:1e.0,01.0,07.0";
 			ata_port = <0x02>;
 		};
 
