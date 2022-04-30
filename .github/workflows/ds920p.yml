@@ -14,7 +14,7 @@ on:
       pcie_root:
         description: "pcie_root"
         required: true
-        default: "00:1f.2"
+        default: "00:1e.0,01.0,07.0"
 
 jobs:
   build:
@@ -43,10 +43,6 @@ jobs:
           echo "------"
           cat output.dts
           echo "------"
-          sed -n '/internal_slot@0/,/led_green/p' output.dts
-          sed -i '/internal_slot@0/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
-          sed -n '/internal_slot@0/,/led_green/p' output.dts
-          echo "------"
           sed -n '/internal_slot@1/,/led_green/p' output.dts
           sed -i '/internal_slot@1/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
           sed -n '/internal_slot@1/,/led_green/p' output.dts
@@ -58,6 +54,10 @@ jobs:
           sed -n '/internal_slot@3/,/led_green/p' output.dts
           sed -i '/internal_slot@3/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
           sed -n '/internal_slot@3/,/led_green/p' output.dts
+          echo "------"
+          sed -n '/internal_slot@4/,/led_green/p' output.dts
+          sed -i '/internal_slot@4/,/led_green/{s/pcie_root.*/pcie_root = \"${{ github.event.inputs.pcie_root }}\";/}' output.dts
+          sed -n '/internal_slot@4/,/led_green/p' output.dts
           echo "------"
 
       - name: DTS转DTB
